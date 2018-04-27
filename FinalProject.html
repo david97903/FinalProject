@@ -1,0 +1,506 @@
+<html>
+<head>
+  <title> Particles Are Great </title>
+
+<script>
+   var canvas;
+   var context;
+   var particles;
+   var things;
+   var triangles;
+   var comets;
+   var bolts;
+   var words;
+   var timer;
+   var colors = ["orange", "grey", "green", "white"];
+   var color = colors[Math.floor(Math.random() * colors.length)];
+   function degreesToRadians(degrees) {
+       return (degrees * Math.PI)/180;
+   }
+
+/*   function wordGenerator() {
+  var canvas = document.getElementById('wordCanvas');
+  var context = canvas.getContext('2d');
+  var title = makeWords();
+   drawText(canvas, context, title);
+}
+
+   function makeWords() {
+  var lines = [['OOOOOOHHHH', 'AAAAAHHHHHHH']];
+  var title = ' ';
+   for (var i=0; i<lines.length; i++) {
+  var random = Math.floor(Math.random() * lines[i].length);
+      title += lines[i][random] + ' ';
+}
+   return title;
+  }
+   function drawText(canvas, context, title){
+   context.fillStyle = 'red';
+   context.font = 'bold 1em sans-serif';
+   context.textAlign = 'right';
+   context.fillText(title, canvas.width-20, canvas.height-40);
+ } */
+
+
+   function makeParticles() {
+        particles = [];
+        for (var i=0; i<30; i++) {
+            particles.push(new Particle());
+        }
+    }
+
+    function makeThings() {
+         things = [];
+         for (var i=0; i<30; i++) {
+             things.push(new Thing());
+         }
+       }
+     function makeTriangles() {
+          triangles = [];
+          for (var i=0; i<30; i++) {
+              triangles.push(new Triangle());
+          }
+        }
+      function makeComets() {
+           comets = [];
+           for (var i=0; i<30; i++) {
+               comets.push(new Comet());
+           }
+         }
+
+     function makeBolts() {
+          bolts = [];
+          for (var i=0; i<30; i++) {
+              bolts.push(new Bolt());
+          }
+        }
+
+      function makeWords() {
+           words = [];
+           for (var i=0; i<30; i++) {
+               words.push(new Word());
+           }
+         }
+
+
+
+
+     function moveParticles() {
+         context.globalCompositeOperation = "source-over";
+         context.fillStyle = "rgba(0,0,0,0.3)";
+         context.fillRect(0,0,canvas.width,canvas.height);
+         context.globalCompositeOperation = "lighter";
+         for (var i=0; i < particles.length; i++) {
+             //draw the particles
+             var p = particles[i];
+             context.beginPath();
+             context.arc(p.x, p.y, p.radius, 0, degreesToRadians(360), true);
+             context.fillStyle = p.color;
+             context.fill();
+             //move the particle
+             p.x += p.vx;
+             p.y += p.vy;
+             if (p.x < -50) {
+                p.x = canvas.width + 50;
+
+             }
+             if (p.y < -50) {
+                p.y = canvas.height + 50;
+             }
+             if (p.x > canvas.width + 50) {
+                p.x = -50;
+             }
+             if (p.y > canvas.height + 50) {
+                p.y = -50;
+            }
+
+          //update particles
+            p.radius += .2;
+            p.y -= 2;
+
+            //delete particles
+            if (p.radius <= 0)
+              {
+               particles.splice(i,1);
+              }
+          }
+  }
+
+     function moveThings() {
+         context.globalCompositeOperation = "source-over";
+         context.fillStyle = "rgba(0,0,0,0.3)";
+         context.fillRect(0,0,canvas.width,canvas.height);
+         context.globalCompositeOperation = "lighter";
+         for (var i=0; i < things.length; i++) {
+             //draw the particles
+             var t = things[i];
+             context.beginPath();
+             context.rect(t.x, t.y, t.radius, t.radius);
+             context.fillStyle = t.color;
+             context.fill();
+             //move the particle
+             t.x += t.vx;
+             t.y += t.vy;
+             if (t.x < -50) {
+                t.x = canvas.width + 50;
+
+             }
+             if (t.y < -50) {
+                t.y = canvas.height + 50;
+             }
+             if (t.x > canvas.width + 50) {
+                t.x = -50;
+             }
+             if (t.y > canvas.height + 50) {
+                t.y = -50;
+            }
+
+          //update particles
+            t.radius += .05;
+            t.y -= 2;
+
+            //delete particles
+            if (t.radius <= 0)
+              {
+               things.splice(i,1);
+              }
+
+
+            }
+
+
+         }
+
+     function moveTriangles() {
+         context.globalCompositeOperation = "source-over";
+         context.fillStyle = "rgba(0,0,0,0.3)";
+         context.fillRect(0,0,canvas.width,canvas.height);
+         context.globalCompositeOperation = "lighter";
+         for (var i=0; i < triangles.length; i++) {
+             //draw the particles
+             var t = things[i];
+             context.beginPath();
+             context.moveTo(t.x,t.y); //assumes x is 75, y is 50
+             context.lineTo(t.x + 50,t.y + 50);
+             context.lineTo(t.x + 50, t.y - 50);
+             context.closePath();
+             context.fillStyle = color
+             context.fill();
+             //move the particle
+             t.x += t.vx;
+             t.y += t.vy;
+             if (t.x < -50) {
+                t.x = canvas.width + 50;
+
+             }
+             if (t.y < -50) {
+                t.y = canvas.height + 50;
+             }
+             if (t.x > canvas.width + 50) {
+                t.x = -50;
+             }
+             if (t.y > canvas.height + 50) {
+                t.y = -50;
+            }
+
+          //update particles
+            t.radius += .02;
+            t.y -= 2;
+
+            //delete particles
+            if (t.radius <= 0)
+              {
+               triangles.splice(i,1);
+              }
+
+
+            }
+
+
+         }
+
+     function moveComets() {
+         context.globalCompositeOperation = "source-over";
+         context.fillStyle = "rgba(0,0,0,0.3)";
+         context.fillRect(0,0,canvas.width,canvas.height);
+         context.globalCompositeOperation = "lighter";
+         for (var i=0; i < comets.length; i++) {
+             //draw the particles
+             var p = particles[i];
+             context.beginPath();
+             context.moveTo(p.x,p.y); //assumes x is 75, y is 50
+             context.quadraticCurveTo(p.x + 200, p.y + 40, p.x + 100, p.y + 30);
+             context.closePath();
+             context.fillStyle = p.color;
+             context.fill();
+             //move the particle
+             p.x += p.vx;
+             p.y += p.vy;
+             if (p.x < -50) {
+                p.x = canvas.width + 50;
+
+             }
+             if (p.y < -50) {
+                p.y = canvas.height + 50;
+             }
+             if (p.x > canvas.width + 50) {
+                p.x = -50;
+             }
+             if (p.y > canvas.height + 50) {
+                p.y = -50;
+            }
+
+          //update particles
+            p.radius += .2;
+            p.y -= 2;
+
+            //delete particles
+            if (p.radius <= 0)
+              {
+               comets.splice(i,1);
+              }
+          }
+  }
+
+  function moveBolts() {
+      context.globalCompositeOperation = "source-over";
+      context.fillStyle = "rgba(0,0,0,0.3)";
+      context.fillRect(0,0,canvas.width,canvas.height);
+      context.globalCompositeOperation = "lighter";
+      for (var i=0; i < bolts.length; i++) {
+          //draw the particles
+          var t = things[i];
+          context.beginPath();
+          context.moveTo(t.x,t.y); //assumes x is 75, y is 50
+          context.lineTo(t.x + 50,t.y + 50);
+          context.lineTo(t.x + 0, t.y - 50);
+          context.lineTo(t.x + 50, t.y + 0);
+          context.lineTo(t.x - 50, t.y - 50);
+          context.lineTo(t.x - 0, t.y + 50);
+          context.lineTo(t.x - 50, t.y - 0);
+
+          context.fillStyle = t.color;
+          context.fill();
+          //move the particle
+          t.x += t.vx;
+          t.y += t.vy;
+          if (t.x < -50) {
+             t.x = canvas.width + 50;
+
+          }
+          if (t.y < -50) {
+             t.y = canvas.height + 50;
+          }
+          if (t.x > canvas.width + 50) {
+             t.x = -50;
+          }
+          if (t.y > canvas.height + 50) {
+             t.y = -50;
+         }
+
+       //update particles
+         t.radius += .05;
+         t.y -= 2;
+
+         //delete particles
+         if (t.radius <= 0)
+           {
+            bolts.splice(i,1);
+           }
+
+
+         }
+
+
+      }
+
+
+        var lines = [['LIGHTS!', 'CAMERA!', 'PARTY!','DISCO DISCO!']];
+        var title = ' ';
+      //  var textPosition =
+        for (var i=0; i<lines.length; i++) {
+        //lines.push(new moveLines());
+        var random = Math.floor(Math.random() * lines[i].length);
+        title += lines[i][random] + ' ';
+        }
+
+  /*    function moveLines() {
+        this.x = Math.random() *cw;
+        this.y = Math.random() *ch;
+
+        this.vx = Math.random()*-10-10;
+       this.vy = Math.random()*10-10;
+     } */
+
+      function moveWords() {
+          context.globalCompositeOperation = "source-over";
+          context.fillStyle = "rgba(0,0,0,0.3)";
+          context.fillRect(0,0,canvas.width,canvas.height);
+          context.globalCompositeOperation = "lighter";
+          for (var i=0; i < words.length; i++) {
+              //draw the particles
+
+              var p = particles[i];
+              context.fillStyle = 'red';
+              context.font = 'bold 96px Helvetica';
+              context.textAlign = 'right';
+              context.fillText(title, canvas.width-200, canvas.height-200);
+              //move the particle
+              p.x += p.vx;
+              p.y += p.vy;
+              if (p.x < -50) {
+                 p.x = canvas.width + 50;
+
+              }
+              if (p.y < -50) {
+                 p.y = canvas.height + 50;
+              }
+              if (p.x > canvas.width + 50) {
+                 p.x = -50;
+              }
+              if (p.y > canvas.height + 50) {
+                 p.y = -50;
+             }
+
+           //update particles
+             p.radius += .2;
+             p.y -= 2;
+
+             //delete particles
+             if (p.radius <= 0)
+               {
+                particles.splice(i,1);
+               }
+           }
+   }
+
+
+   function Particle() {
+       this.x = canvas.width - 720;
+       this.y = canvas.height;
+       this.vx = Math.random() * 10 - 5;
+       this.vy = Math.random() * 10 - 10;
+       var colors = ["FireBrick", "Chartreuse", "aqua", "turquoise", "purple", "Orange", "CadetBlue"];
+       this.color = colors[Math.floor(Math.random() * colors.length)];
+       this.radius = 35;
+
+
+
+   }
+
+   function Thing() {
+       this.x = canvas.width - 720;
+       this.y = canvas.height;
+       this.vx = Math.random() * 10 - 5;
+       this.vy = Math.random() * 10 - 10;
+       var colors = ["FireBrick", "Chartreuse", "aqua", "turquoise", "purple", "yellow", "CadetBlue"];
+       this.color = colors[Math.floor(Math.random() * colors.length)];
+       this.radius = 50;
+
+
+
+   }
+
+   function Triangle() {
+       this.x = canvas.width - 720;
+       this.y = canvas.height;
+       this.vx = Math.random() * 10 - 5;
+       this.vy = Math.random() * 10 - 10;
+       var colors = ["FireBrick", "Chartreuse", "aqua", "turquoise", "purple", "yellow", "CadetBlue"];
+       this.color = colors[Math.floor(Math.random() * colors.length)];
+       this.radius = 50;
+
+
+
+   }
+
+   function Comet() {
+       this.x = canvas.width - 720;
+       this.y = canvas.height;
+       this.vx = Math.random() * 10 - 5;
+       this.vy = Math.random() * 10 - 10;
+       var colors = ["Red", "CadetBlue"];
+       this.color = colors[Math.floor(Math.random() * colors.length)];
+       this.radius = 50;
+
+
+
+   }
+
+   function Bolt() {
+       this.x = canvas.width - 720;
+       this.y = canvas.height;
+       this.vx = Math.random() * 10 - 5;
+       this.vy = Math.random() * 10 - 10;
+       var colors = ["FireBrick", "Chartreuse", "aqua", "turquoise", "purple", "Orange", "CadetBlue"];
+       this.color = colors[Math.floor(Math.random() * colors.length)];
+       this.radius = 35;
+
+    }
+
+    function Word() {
+        this.x = canvas.width - 720;
+        this.y = canvas.height;
+        this.vx = Math.random() * 10 - 5;
+        this.vy = Math.random() * 10 - 10;
+        var colors = ["FireBrick", "Chartreuse", "aqua", "turquoise", "purple", "Orange", "CadetBlue"];
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+        this.radius = 65;
+
+     }
+
+
+   function  resizeCanvas() {
+     canvas.width = window.innerWidth-10;
+     canvas.height = window.innerHeight-10;
+     fillBackgroundColor();
+   }
+   function fillBackgroundColor() {
+       //make the background black
+       context.fillStyle = "black";
+       context.fillRect(0,0,canvas.width,canvas.height);
+
+   }
+
+
+
+   window.onload = function() {
+      canvas = document.getElementById("canvas");
+      context = canvas.getContext("2d");
+      //make all the Particles
+      makeParticles();
+      makeThings();
+      makeTriangles();
+      makeComets();
+      makeBolts();
+      makeWords();
+    //  cw = canvas.width;
+    //  ch = canvas.height
+
+         //move the particles every 100 milliseconds
+      timer = setInterval(moveParticles, 40);
+      timer = setInterval(makeParticles, 6300);
+      timer = setInterval(moveThings, 40);
+      timer = setInterval(makeThings, 6300);
+      timer = setInterval(moveTriangles, 40);
+      timer = setInterval(makeTriangles, 6000);
+      timer = setInterval(moveComets, 40);
+      timer = setInterval(makeComets, 7000);
+      timer = setInterval(moveBolts, 40);
+      timer = setInterval(makeBolts, 8000);
+      timer = setInterval(moveWords, 40);
+      timer = setInterval(makeWords, 6300);
+
+
+
+  }
+</script>
+</head>
+<body>
+   <canvas id="canvas" width="1350" height="400"></canvas>
+
+   <audio autoplay="autoplay" controls="controls" loop = "true" hidden = "true">
+     <source src="Disco.mp3.mp3" />
+  </audio>
+</body>
+</html>
